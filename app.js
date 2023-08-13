@@ -65,3 +65,60 @@ an edit button. On click on delete button entire row should
 be deleted. On click on edit button, a hidden form will
 appear with the values of that row. */
 
+const studentForm = document.getElementById("studentForm");
+const studentTable = document.getElementById("studentTable");
+const editForm = document.getElementById("editForm");
+const editName = document.getElementById("editName");
+const editAge = document.getElementById("editAge");
+const editGrade = document.getElementById("editGrade");
+const cancelEdit = document.getElementById("cancelEdit");
+const editIndex = document.getElementById("editIndex");
+
+studentForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const name = document.getElementById("name").value;
+    const age = document.getElementById("age").value;
+    const grade = document.getElementById("grade").value;
+
+    const newRow = document.createElement("tr");
+    newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${age}</td>
+        <td>${grade}</td>
+        <td><button class="editButton">Edit</button></td>
+        <td><button class="deleteButton">Delete</button></td>
+    `;
+
+    newRow.querySelector(".editButton").addEventListener("click", function () {
+        editIndex.value = newRow.rowIndex - 1;
+        editName.value = name;
+        editAge.value = age;
+        editGrade.value = grade;
+        editForm.style.display = "block";
+    });
+
+    newRow.querySelector(".deleteButton").addEventListener("click", function () {
+        studentTable.deleteRow(newRow.rowIndex - 1);
+    });
+
+    studentTable.querySelector("tbody").appendChild(newRow);
+
+    studentForm.reset();
+});
+
+cancelEdit.addEventListener("click", function () {
+    editForm.style.display = "none";
+});
+
+editForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const index = parseInt(editIndex.value);
+    const row = studentTable.rows[index];
+
+    row.cells[0].textContent = editName.value;
+    row.cells[1].textContent = editAge.value;
+    row.cells[2].textContent = editGrade.value;
+
+    editForm.style.display = "none";
+});
+

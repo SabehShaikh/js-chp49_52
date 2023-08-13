@@ -18,3 +18,13 @@ body {
 .details {
     display: none;
 }
+
+#btn {
+    margin-top: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* #btn:active{
+    cou
+} */
